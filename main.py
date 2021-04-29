@@ -4,6 +4,8 @@ import os
 from registration import register_page
 import  auth
 from emploer import employer_create_table, get_employer, read_bd, update_bd
+from export_excel import export_excel
+
 current_loc = os.path.dirname(os.path.abspath(__file__))
 myapp = Flask(__name__)
 
@@ -41,5 +43,12 @@ def employer_update_bd(index):
         return render_template('update_bd_index.html')
     else:
         return update_bd(index)
+    
+@myapp.route('/home/export/', methods=['POST'])
+def export_excel_form():
+    if(request.method == 'POST'):
+        return export_excel()
+    
+
 if __name__ == "__main__":
     myapp.run()
