@@ -7,7 +7,7 @@ def register_page():
     if request.method == 'POST':
         dUN = request.form['username']
         dPW = request.form['password']
-        sql_connect = sqlite3.Connection(getcwd()+"info.db")
+        sql_connect = sqlite3.Connection(getcwd()+"/info.db")
         cursor = sql_connect.cursor()
         try_auth_query = f"SELECT username, password FROM info_about_users WHERE username = '{dUN}' AND password = '{dPW}'"
         rows = cursor.execute(try_auth_query)
