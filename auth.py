@@ -10,7 +10,7 @@ def check_login():
     UN = request.form['username']
     PW = request.form['password']
     sql_connect = sqlite3.Connection(
-        "/Users/sif/Desktop/flaskg/flaskstr/info.db")
+        os.getcwd()+"/info.db")
     cursor = sql_connect.cursor()
     try_login_query = f"SELECT username, password FROM info_about_users WHERE username = '{UN}' AND password = '{PW}'"
 

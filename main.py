@@ -41,6 +41,5 @@ def employer_update_bd(index):
         return render_template('update_bd_index.html')
     else:
         return update_bd(index)
-
 if __name__ == "__main__":
     myapp.run()
