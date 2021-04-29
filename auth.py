@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, request
 import sqlite3
 import os
 from emploer import  employer_create_table

@@ -1,8 +1,9 @@
-from flask import Flask, request, render_template, make_response, redirect, url_for
 import sqlite3
 import os
-from registration import register_page
 import  auth
+
+from flask import Flask, request, render_template, redirect, url_for
+from registration import register_page
 from emploer import employer_create_table, get_employer, read_bd, update_bd
 from export_excel import export_excel
 
