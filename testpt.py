@@ -3,11 +3,6 @@ import sqlite3
 import os
 import xlwt
 
-#
-# тестирование различных функций и способов обработки информации;
-# к задание не относится
-#
-
 def create_db(query):
     def db_instance(func):
         def wrapper(*args, **kwargs):

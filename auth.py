@@ -9,9 +9,6 @@ auth = False
 def check_login(sql_connect=None, cursor=None):
     UN = request.form['username']
     PW = request.form['password']
-    sql_connect = sqlite3.Connection(
-        os.getcwd()+"/info.db")
-    cursor = sql_connect.cursor()
     try_login_query = f"SELECT username, password FROM info_about_users WHERE username = '{UN}' AND password = '{PW}'"
 
     rows = cursor.execute(try_login_query)
