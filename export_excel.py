@@ -2,16 +2,10 @@ from flask import Flask, send_file
 import sqlite3
 import os
 import xlwt
+from connect_bd_pattern import sql_query
 
-
-def export_excel():
-    sql_connect = sqlite3.Connection(
-        os.getcwd()+"/info.db")
-    cursor = sql_connect.cursor()
-    try_login_query = "SELECT id, name, surname, post FROM employer"
-    rows = cursor.execute(try_login_query)
-    rows = rows.fetchall()
-
+@sql_query("SELECT id, name, surname, post FROM employer")
+def export_excel(rows=None):
     book = xlwt.Workbook()
     sheet1 = book.add_sheet("Sheet1")
     cols = ("id", "name", "surname", "post")

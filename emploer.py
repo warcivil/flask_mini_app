@@ -1,43 +1,32 @@
 from flask import Flask, render_template,request,redirect,url_for
+from connect_bd_pattern import sql_query, db_connect
 import sqlite3
 import os
 
-
-def employer_create_table():
-    sql_connect = sqlite3.Connection(
-        os.getcwd()+"/info.db")
-    cursor = sql_connect.cursor()
-    try_login_query = "SELECT id, name, surname, post FROM employer"
-    rows = cursor.execute(try_login_query)
-    rows = rows.fetchall()
+@sql_query("SELECT id, name, surname, post FROM employer")
+def employer_create_table(rows=None):
     return render_template('home.html', content=rows)
 
 
 def get_employer():
     return render_template('employerTable.html')
 
-
-def read_bd():
+@db_connect
+def read_bd(sql_connect=None, cursor=None):
     UN = request.form['username']
     SR = request.form['surname']
     PR = request.form['post']
-    sql_connect = sqlite3.Connection(
-        os.getcwd()+"/info.db")
-    cursor = sql_connect.cursor()
     auth_query = f"INSERT INTO employer(name, surname, post) VALUES('{UN}','{SR}', '{PR}')"
     rows = cursor.execute(auth_query)
     sql_connect.commit()
     rows.close()
     return redirect(url_for('home'))
 
-
-def update_bd(index):
+@db_connect
+def update_bd(index, sql_connect=None, cursor=None):
     UN = request.form['username']
     SR = request.form['surname']
     PR = request.form['post']
-    sql_connect = sqlite3.Connection(
-        os.getcwd()+"/info.db")
-    cursor = sql_connect.cursor()
     auth_query = f"UPDATE employer SET name='{UN}', surname='{SR}', post='{PR}' WHERE id='{int(index)+1}'"
     rows = cursor.execute(auth_query)
     sql_connect.commit()

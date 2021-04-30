@@ -2,13 +2,13 @@ from flask import  Flask, render_template, request
 import sqlite3
 from emploer import  employer_create_table
 from os import getcwd
+from connect_bd_pattern import db_connect
 
-def register_page():
+@db_connect
+def register_page(sql_connect=None, cursor=None):
     if request.method == 'POST':
         dUN = request.form['username']
         dPW = request.form['password']
-        sql_connect = sqlite3.Connection(getcwd()+"/info.db")
-        cursor = sql_connect.cursor()
         try_auth_query = f"SELECT username, password FROM info_about_users WHERE username = '{dUN}' AND password = '{dPW}'"
         rows = cursor.execute(try_auth_query)
         rows = rows.fetchall()

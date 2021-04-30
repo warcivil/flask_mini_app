@@ -3,22 +3,33 @@ import sqlite3
 import os
 import xlwt
 
+#
+# тестирование различных функций и способов обработки информации;
+# к задание не относится
+#
 
-def export_excel():
-    sql_connect = sqlite3.Connection(
-        os.getcwd()+"/info.db")
-    cursor = sql_connect.cursor()
-    try_login_query = "SELECT id, name, surname, post FROM employer"
-    rows = cursor.execute(try_login_query)
-    rows = rows.fetchall()
-
+def create_db(query):
+    def db_instance(func):
+        def wrapper(*args, **kwargs):
+            sql_connect = sqlite3.Connection(
+            os.getcwd()+"/info.db")
+            cursor = sql_connect.cursor()
+            try_login_query = query
+            rows = cursor.execute(try_login_query)
+            rows = rows.fetchall()
+            return func(rows)
+        return wrapper
+    return db_instance
+    
+@create_db("SELECT id, name, surname, post FROM employer")
+def export_excel(rows = None):
     book = xlwt.Workbook()
 
     # Add a sheet to the workbook
     sheet1 = book.add_sheet("Sheet1")
 
     # The data
-    cols = ("id", "name", "surname", "post")
+    cols = ("id", "a", "surname", "post")
 
     row = sheet1.row(0)
     for i in range(len(cols)):
@@ -29,6 +40,7 @@ def export_excel():
         for index in range(0, 4):
             row.write(index, num[index])
     book.save("test.xls")
+    return 1
 
 
-export_excel()
+print(export_excel())
