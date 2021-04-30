@@ -12,7 +12,9 @@ def sql_query(query):
             try_login_query = query
             rows = cursor.execute(try_login_query)
             rows = rows.fetchall()
-            return func(rows)
+            value = func(rows)
+            sql_connect.close()
+            return value
         return wrapper
     return db_instance
 
@@ -22,5 +24,8 @@ def db_connect(func):
         sql_connect = sqlite3.Connection(
         os.getcwd()+"/info.db")
         cursor = sql_connect.cursor()
-        return func(*args, sql_connect, cursor)
+        value = func(*args, sql_connect, cursor)
+        sql_connect.commit()
+        sql_connect.close()
+        return value
     return wrapper

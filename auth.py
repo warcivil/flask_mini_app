@@ -13,7 +13,6 @@ def check_login(sql_connect=None, cursor=None):
 
     rows = cursor.execute(try_login_query)
     rows = rows.fetchall()
-    rows.close()
     if len(rows) == 1:
         global auth
         auth = True

@@ -17,6 +17,5 @@ def register_page(sql_connect=None, cursor=None):
         else:
             auth_query = f"INSERT INTO info_about_users(username, password) VALUES('{dUN}','{dPW}')"
             rows = cursor.execute(auth_query)
-            sql_connect.commit()
             return employer_create_table()
     return render_template('reg.html')

@@ -17,9 +17,7 @@ def read_bd(sql_connect=None, cursor=None):
     SR = request.form['surname']
     PR = request.form['post']
     auth_query = f"INSERT INTO employer(name, surname, post) VALUES('{UN}','{SR}', '{PR}')"
-    rows = cursor.execute(auth_query)
-    sql_connect.commit()
-    rows.close()
+    cursor.execute(auth_query)
     return redirect(url_for('home'))
 
 @db_connect
@@ -28,7 +26,5 @@ def update_bd(index, sql_connect=None, cursor=None):
     SR = request.form['surname']
     PR = request.form['post']
     auth_query = f"UPDATE employer SET name='{UN}', surname='{SR}', post='{PR}' WHERE id='{int(index)+1}'"
-    rows = cursor.execute(auth_query)
-    sql_connect.commit()
-    rows.close()
+    cursor.execute(auth_query)
     return redirect(url_for('home'))
