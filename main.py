@@ -6,6 +6,7 @@ from flask import Flask, request, render_template, redirect, url_for, make_respo
 from registration import register_page
 from emploer import employer_create_table, get_employer, read_bd, update_bd
 from export_excel import export_excel
+from werkzeug.security import check_password_hash
 
 current_loc = os.path.dirname(os.path.abspath(__file__))
 myapp = Flask(__name__)
@@ -15,9 +16,10 @@ myapp = Flask(__name__)
 def homepage():
     return render_template('auth.html')
 
-@myapp.route('/home', methods=['GET', 'POST'])
+@myapp.route('/home', methods=['GET'])
 def home():
-    if(request.cookies.get('logged') != "yes"):
+    print(check_password_hash(request.cookies.get("logged"), "yes"))
+    if(not check_password_hash(request.cookies.get("logged"), "yes")):
         return redirect(url_for('register_page_app'))    
     return employer_create_table()
 

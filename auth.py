@@ -3,7 +3,7 @@ import sqlite3
 import os
 from emploer import  employer_create_table
 from connect_bd_pattern import db_connect
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 auth = False
 @db_connect
 def check_login(sql_connect=None, cursor=None):
@@ -15,11 +15,7 @@ def check_login(sql_connect=None, cursor=None):
     rows = rows.fetchall()
     for row in rows:
         if(check_password_hash(row[1], PW)):
-            log = ""
-            if(request.cookies.get('logged')):
-                log=request.cookies.get('logged')
             res = make_response(employer_create_table())
-            res.set_cookie("logged", "yes")
-            print(request.cookies.get('logged'))
+            res.set_cookie("logged", generate_password_hash("yes"))
             return res
     return 'bad login or password'
