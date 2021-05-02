@@ -15,7 +15,11 @@ def check_login(sql_connect=None, cursor=None):
     rows = rows.fetchall()
     for row in rows:
         if(check_password_hash(row[1], PW)):
-            res = make_response("success")
-            res.set_cookie("logged", "True")
-            return employer_create_table()
+            log = ""
+            if(request.cookies.get('logged')):
+                log=request.cookies.get('logged')
+            res = make_response(employer_create_table())
+            res.set_cookie("logged", "yes")
+            print(request.cookies.get('logged'))
+            return res
     return 'bad login or password'
