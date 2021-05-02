@@ -1,4 +1,4 @@
-from flask import  Flask, render_template, request
+from flask import  Flask, render_template, request, make_response
 import sqlite3
 from emploer import  employer_create_table
 from os import getcwd
@@ -17,5 +17,7 @@ def register_page(sql_connect=None, cursor=None):
         else:
             auth_query = f"INSERT INTO info_about_users(username, password) VALUES('{dUN}','{dPW}')"
             rows = cursor.execute(auth_query)
-            return employer_create_table()
+            res = make_response(employer_create_table())
+            res.set_cookie("logged", generate_password_hash("yes"))
+            return res
     return render_template('reg.html')
