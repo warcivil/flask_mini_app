@@ -2,7 +2,7 @@ import sqlite3
 import os
 import  auth
 
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, make_response
 from registration import register_page
 from emploer import employer_create_table, get_employer, read_bd, update_bd
 from export_excel import export_excel
@@ -17,8 +17,8 @@ def homepage():
 
 @myapp.route('/home', methods=['GET', 'POST'])
 def home():
-    if(not auth.auth):
-        return redirect(url_for('register_page_app'))
+    if(request.cookies.get('logged') != "yes"):
+        return redirect(url_for('register_page_app'))    
     return employer_create_table()
 
 
@@ -52,4 +52,4 @@ def export_excel_form():
     
 
 if __name__ == "__main__":
-    myapp.run()
+    myapp.run(debug=True)

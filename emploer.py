@@ -1,7 +1,8 @@
-from flask import Flask, render_template,request,redirect,url_for
+from flask import Flask, render_template, request, redirect, url_for
 from connect_bd_pattern import sql_query, db_connect
 import sqlite3
 import os
+
 
 @sql_query("SELECT id, name, surname, post FROM employer")
 def employer_create_table(rows=None):
@@ -11,6 +12,7 @@ def employer_create_table(rows=None):
 def get_employer():
     return render_template('employerTable.html')
 
+
 @db_connect
 def read_bd(sql_connect=None, cursor=None):
     UN = request.form['username']
@@ -19,6 +21,7 @@ def read_bd(sql_connect=None, cursor=None):
     auth_query = f"INSERT INTO employer(name, surname, post) VALUES('{UN}','{SR}', '{PR}')"
     cursor.execute(auth_query)
     return redirect(url_for('home'))
+
 
 @db_connect
 def update_bd(index, sql_connect=None, cursor=None):
